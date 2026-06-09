@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEX World - Financial Information Consultancy Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+        :root {
+            --main: #D9B8B8;
+            --assist: #87CFC4;
+            --highlight: #6D5B8F;
+            --neutral: #FF7D38;
+            --dark: #222831;
+            --light: #f9f9f9;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.65;
+        }
+        /* Header & Nav */
+        header {
+            background-color: var(--main);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--highlight);
+            letter-spacing: 0.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--highlight);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--highlight);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .mobile-menu-btn {
+            display: none;
+            font-size: 26px;
+            background: transparent;
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        /* Hero Section */
+        .hero {
+            width: 100%;
+            height: 85vh;
+            background: linear-gradient(rgba(109,91,143,0.15),rgba(217,184,184,0.25)), url('https://anasoldi85-lgtm.github.io/1-8/27.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 5%;
+        }
+        .hero h1 {
+            font-size: 52px;
+            color: var(--highlight);
+            margin-bottom: 18px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 19px;
+            max-width: 650px;
+            margin-bottom: 32px;
+            color: #333;
+        }
+        .hero-btn {
+            padding: 14px 32px;
+            background-color: var(--highlight);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(109,91,143,0.2);
+        }
+        .hero-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(109,91,143,0.3);
+        }
+        /* Common Section Style */
+        section {
+            padding: 100px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: none;
+        }
+        section.active {
+            display: block;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            color: var(--highlight);
+            margin-bottom: 60px;
+            position: relative;
+            font-weight: 700;
+        }
+        .section-title::after {
+            content: '';
+            width: 70px;
+            height: 4px;
+            background-color: var(--neutral);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -12px;
+            border-radius: 2px;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.7;
+        }
+        /* About Us Page */
+        .about-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+        .about-img-box {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .about-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .about-img-box:hover img {
+            transform: scale(1.03);
+        }
+        .about-text h3 {
+            color: var(--highlight);
+            font-size:28px;
+            margin-bottom:20px;
+            font-weight: 600;
+        }
+        .about-text p {
+            line-height:1.8;
+            margin-bottom:20px;
+            color: #444;
+        }
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .about-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .about-feature-icon {
+            color: var(--neutral);
+            font-size: 20px;
+            margin-top: 4px;
+        }
+        .about-feature-text h4 {
+            color: var(--highlight);
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        .about-feature-text p {
+            font-size: 15px;
+            margin-bottom: 0;
+        }
+        /* Services Page */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 35px;
+            margin-bottom: 70px;
+        }
+        .service-card {
+            background-color: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--assist);
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(109,91,143,0.15);
+        }
+        .service-card h4 {
+            color: var(--highlight);
+            font-size:22px;
+            margin-bottom:18px;
+            font-weight: 600;
+        }
+        .service-tag {
+            color: var(--neutral);
+            font-weight:600;
+            margin:12px 0 18px;
+            font-size: 14px;
+            display: inline-block;
+            background-color: rgba(255, 125, 56, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .service-card p {
+            color: #555;
+            line-height: 1.7;
+        }
+        .service-card .service-benefit {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .service-card .service-benefit li {
+            list-style: none;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            color: #666;
+        }
+        .service-card .service-benefit li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--neutral);
+            font-weight: bold;
+        }
+        /* Data Display Module */
+        .data-module {
+            background: linear-gradient(135deg, var(--assist) 0%, #9fe2d7 100%);
+            padding: 40px;
+            border-radius: 12px;
+            margin:40px 0;
+            box-shadow: var(--shadow);
+        }
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        .data-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .data-item span:first-child {
+            color: var(--highlight);
+            font-weight:bold;
+            font-size:18px;
+            margin-bottom: 8px;
+        }
+        .data-item span:last-child {
+            color: #222;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        /* Our Team */
+        .team-grid {
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap:40px;
+            margin-bottom: 70px;
+        }
+        .team-card {
+            background:#fff;
+            box-shadow:var(--shadow);
+            border-radius:12px;
+            overflow:hidden;
+            transition: all 0.3s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .team-card img {
+            width:100%;
+            height:280px;
+            object-fit:cover;
+        }
+        .team-info {
+            padding:25px;
+        }
+        .team-name {
+            color:var(--highlight);
+            font-size:20px;
+            font-weight:600;
+            margin-bottom: 8px;
+        }
+        .team-position {
+            color:var(--neutral);
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .team-bio {
+            font-size:14px;
+            color: #555;
+            line-height: 1.7;
+        }
+        .team-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .team-social a {
+            color: var(--highlight);
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+        .team-social a:hover {
+            color: var(--neutral);
+        }
+        /* Contact Page */
+        .contact-wrap {
+            display:grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap:60px;
+            align-items: flex-start;
+        }
+        .contact-info {
+            background: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        .contact-info h3 {
+            color:var(--highlight);
+            font-size:26px;
+            margin-bottom:25px;
+            font-weight: 600;
+        }
+        .contact-info p {
+            margin-bottom:20px;
+            font-size:16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .contact-info p:last-child {
+            margin-bottom: 0;
+        }
+        .contact-info strong {
+            color:var(--neutral);
+            min-width: 120px;
+            display: inline-block;
+        }
+        .contact-info .contact-address {
+            line-height: 1.7;
+        }
+        .contact-form {
+            background: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        .contact-form h3 {
+            color:var(--highlight);
+            margin-bottom:25px;
+            font-size:24px;
+            font-weight: 600;
+        }
+        .contact-form input, .contact-form textarea {
+            width:100%;
+            padding:16px;
+            margin-bottom:20px;
+            border:1px solid #e0e0e0;
+            border-radius:8px;
+            font-size:15px;
+            transition: border-color 0.3s ease;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--assist);
+            box-shadow: 0 0 0 3px rgba(135, 207, 196, 0.2);
+        }
+        .submit-btn {
+            background:var(--highlight);
+            color:#fff;
+            border:none;
+            padding:16px 40px;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(109,91,143,0.2);
+        }
+        .submit-btn:hover {
+            background-color: #5d4b7f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(109,91,143,0.3);
+        }
+        .success-tip {
+            color:#28a745;
+            font-weight:600;
+            display:none;
+            margin-top:15px;
+            padding: 12px;
+            background-color: rgba(40, 167, 69, 0.1);
+            border-radius: 6px;
+            text-align: center;
+        }
+        /* Footer */
+        footer {
+            background:var(--main);
+            padding:60px 5%;
+            text-align:center;
+            margin-top:50px;
+        }
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+        .footer-col h4 {
+            color: var(--highlight);
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        .footer-col ul li a {
+            color: #444;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-col ul li a:hover {
+            color: var(--highlight);
+            padding-left: 5px;
+        }
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            color: #333;
+            font-size: 14px;
+        }
+        /* Mobile Responsive */
+        @media(max-width:768px){
+            .nav-links {
+                position:absolute;
+                top:100%;
+                left:0;
+                width:100%;
+                flex-direction:column;
+                background:var(--main);
+                padding:20px 5%;
+                display:none;
+                box-shadow:0 4px 8px rgba(0,0,0,0.1);
+                gap: 1.5rem;
+            }
+            .nav-links.show {
+                display:flex;
+            }
+            .mobile-menu-btn {
+                display:block;
+            }
+            .hero h1 {
+                font-size:38px;
+            }
+            .hero p {
+                font-size: 17px;
+            }
+            section {
+                padding: 70px 5%;
+            }
+            .section-title {
+                font-size: 30px;
+                margin-bottom: 40px;
+            }
+            .about-wrap,.contact-wrap {
+                grid-template-columns:1fr;
+                gap: 40px;
+            }
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+            .data-module {
+                padding: 30px 20px;
+            }
+            .contact-info, .contact-form {
+                padding: 25px;
+            }
+            .footer-content {
+                text-align: center;
+            }
+        }
+
+        @media(max-width:480px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero-btn {
+                padding: 12px 24px;
+                font-size: 15px;
+            }
+            .services-grid, .team-grid {
+                grid-template-columns: 1fr;
+            }
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo-text">FEX World</div>
+            <button class="mobile-menu-btn" id="menuBtn">☰</button>
+            <nav class="nav-links" id="navMenu">
+                <a data-target="home">Home</a>
+                <a data-target="about">About Us</a>
+                <a data-target="services">Our Services</a>
+                <a data-target="team">Our Team</a>
+                <a data-target="contact">Contact Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="active">
+        <div class="hero">
+            <h1>FEX World Financial Consultancy</h1>
+            <p>Professional global financial information consulting service provider, delivering accurate market analysis, asset planning and personalized financial solutions for global individual and institutional clients.</p>
+            <button class="hero-btn" onclick="switchPage('contact')">Get In Touch</button>
+        </div>
+        <div style="margin-top:60px;">
+            <h2 class="section-title">Our Core Advantages</h2>
+            <p class="section-subtitle">We combine deep industry expertise with cutting-edge market insights to deliver tailored financial solutions that drive sustainable growth for our clients.</p>
+            <div class="data-module">
+                <div class="data-grid">
+                    <div class="data-item">
+                        <span>Global Market Coverage</span>
+                        <span>Covers UK, Europe and major international financial markets with real-time data monitoring and analysis</span>
+                    </div>
+                    <div class="data-item">
+                        <span>Expert Team Resource</span>
+                        <span>Senior financial analysts with over 15 years average industry experience in global markets</span>
+                    </div>
+                    <div class="data-item">
+                        <span>Customized Solution</span>
+                        <span>Exclusive financial consulting plan for different investment demands and risk appetites</span>
+                    </div>
+                    <div class="data-item">
+                        <span>Regulatory Compliance</span>
+                        <span>Fully compliant with UK and EU financial regulations to ensure secure service delivery</span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:60px;">
+                <img src="https://anasoldi85-lgtm.github.io/1-8/28.jpg" alt="Financial analysis" style="width:100%;border-radius:12px;box-shadow:var(--shadow);">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+        <h2 class="section-title">About FEX World</h2>
+        <p class="section-subtitle">Founded in Brighton & Hove, we are a leading financial consultancy dedicated to providing transparent, reliable and actionable financial advice to clients worldwide.</p>
+        <div class="about-wrap">
+            <div class="about-img-box">
+                <img src="https://anasoldi85-lgtm.github.io/1-8/29.jpg" alt="Company Office">
+            </div>
+            <div class="about-text">
+                <h3>Company Profile</h3>
+                <p>Founded in Brighton & Hove, England, FEX World is a specialized financial information consulting enterprise focusing on global financial market research and customized consulting services. We combine local UK financial regulatory knowledge with international market data resources to provide reliable financial reference information.</p>
+                <p>Our corporate mission is to eliminate information asymmetry in financial investment, help clients grasp market trends reasonably, avoid unnecessary investment risks and realize steady asset appreciation.</p>
+                <p>After years of development, we have built complete data collection channels covering stock, foreign exchange, fund and commodity markets, supporting long-term stable consulting output for both individual and institutional clients.</p>
+                
+                <div class="about-features">
+                    <div class="about-feature-item">
+                        <span class="about-feature-icon">🎯</span>
+                        <div class="about-feature-text">
+                            <h4>Our Mission</h4>
+                            <p>Empowering clients with data-driven financial insights to make informed investment decisions.</p>
+                        </div>
+                    </div>
+                    <div class="about-feature-item">
+                        <span class="about-feature-icon">🌟</span>
+                        <div class="about-feature-text">
+                            <h4>Our Vision</h4>
+                            <p>To be the most trusted financial consultancy for global investors in UK and European markets.</p>
+                        </div>
+                    </div>
+                    <div class="about-feature-item">
+                        <span class="about-feature-icon">🤝</span>
+                        <div class="about-feature-text">
+                            <h4>Our Values</h4>
+                            <p>Integrity, professionalism, innovation and client-centric service delivery.</p>
+                        </div>
+                    </div>
+                    <div class="about-feature-item">
+                        <span class="about-feature-icon">📈</span>
+                        <div class="about-feature-text">
+                            <h4>Our Approach</h4>
+                            <p>Combining quantitative analysis with qualitative research for holistic financial advice.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-module">
+            <div class="data-grid">
+                <div class="data-item">
+                    <span>Founding Location</span>
+                    <span>Brighton & Hove, England</span>
+                </div>
+                <div class="data-item">
+                    <span>Core Business</span>
+                    <span>Global Financial Info Consultancy & Investment Advisory</span>
+                </div>
+                <div class="data-item">
+                    <span>Client Base</span>
+                    <span>Individual investors, SMEs, financial institutions across 12+ countries</span>
+                </div>
+                <div class="data-item">
+                    <span>Market Focus</span>
+                    <span>UK, EU, North America and APAC emerging markets</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Our Professional Services</h2>
+        <p class="section-subtitle">Comprehensive financial consulting services tailored to meet the unique needs of individual and institutional clients across global markets.</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <h4>Global Financial Market Analysis</h4>
+                <p>Real-time tracking of global stock, forex and commodity market changes, regular written market analysis reports for institutional and individual investors.</p>
+                <div class="service-tag">Market Research</div>
+                <ul class="service-benefit">
+                    <li>Daily market briefings and weekly in-depth analysis</li>
+                    <li>Customized market watchlists based on client interests</li>
+                    <li>Technical and fundamental analysis combined</li>
+                    <li>Market trend forecasting with risk assessment</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h4>Personal Asset Allocation Consulting</h4>
+                <p>Custom asset portfolio suggestion based on client’s risk preference, capital scale and long-term financial goal planning.</p>
+                <div class="service-tag">Wealth Planning</div>
+                <ul class="service-benefit">
+                    <li>Personalized risk assessment and profiling</li>
+                    <li>Diversified portfolio construction</li>
+                    <li>Regular portfolio review and rebalancing</li>
+                    <li>Tax-efficient investment strategies</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h4>Institutional Financial Advisory</h4>
+                <p>Long-term financial consulting cooperation for small and medium financial institutions, data support and industry trend research.</p>
+                <div class="service-tag">Institutional Service</div>
+                <ul class="service-benefit">
+                    <li>White-label research reports for institutions</li>
+                    <li>Market entry strategy development</li>
+                    <li>Competitor analysis and benchmarking</li>
+                    <li>Regulatory compliance advisory</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h4>Cross-border Investment Information</h4>
+                <p>UK and European cross-border investment policy interpretation, market entry information and risk early warning service.</p>
+                <div class="service-tag">Cross-border Finance</div>
+                <ul class="service-benefit">
+                    <li>Brexit-related financial policy updates</li>
+                    <li>Cross-border tax optimization strategies</li>
+                    <li>Regulatory landscape analysis across EU countries</li>
+                    <li>Currency risk management advice</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h4>Financial Risk Assessment</h4>
+                <p>Targeted risk inspection for investment projects, identify hidden market and policy risks in advance.</p>
+                <div class="service-tag">Risk Control</div>
+                <ul class="service-benefit">
+                    <li>Comprehensive risk identification framework</li>
+                    <li>Stress testing for investment portfolios</li>
+                    <li>Policy and regulatory risk assessment</li>
+                    <li>Risk mitigation strategy development</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h4>Regular Financial Training</h4>
+                <p>Offline and online financial knowledge training for clients, improve market judgment ability for individual investors.</p>
+                <div class="service-tag">Financial Education</div>
+                <ul class="service-benefit">
+                    <li>Customized training programs for all skill levels</li>
+                    <li>Interactive workshops and webinars</li>
+                    <li>One-on-one coaching sessions</li>
+                    <li>Educational materials and resources library</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="data-module">
+            <div class="data-grid">
+                <div class="data-item">
+                    <span>Average Service Cycle</span>
+                    <span>Flexible from short-term report (1-2 weeks) to long-term annual consulting (12+ months)</span>
+                </div>
+                <div class="data-item">
+                    <span>Service Coverage Area</span>
+                    <span>UK Mainland + European Union Main Countries + Global Emerging Markets</span>
+                </div>
+                <div class="data-item">
+                    <span>Client Retention Rate</span>
+                    <span>92% of clients renew their consulting contracts annually</span>
+                </div>
+                <div class="data-item">
+                    <span>Service Delivery Channels</span>
+                    <span>Online portal, dedicated account managers, regular meetings, mobile app access</span>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top:60px;text-align:center;">
+            <img src="https://anasoldi85-lgtm.github.io/1-8/30.jpg" alt="Financial data chart" style="width:100%;max-width:1200px;border-radius:12px;box-shadow:var(--shadow);">
+        </div>
+    </section>
+
+    <!-- Our Team -->
+    <section id="team">
+        <h2 class="section-title">Our Professional Team</h2>
+        <p class="section-subtitle">Our team of seasoned financial experts brings decades of combined experience in global markets, regulatory compliance and investment strategy development.</p>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="https://anasoldi85-lgtm.github.io/1-8/31.jpg" alt="Team Member - Richard Wilson">
+                <div class="team-info">
+                    <div class="team-name">Richard Wilson</div>
+                    <div class="team-position">Founder & Chief Financial Analyst</div>
+                    <p class="team-bio">20 years UK capital market research experience, former senior analyst of London local financial institution. Specializes in macroeconomic analysis and equity market forecasting with proven track record in identifying market trends.</p>
+                    <div class="team-social">
+                        <a href="#!">📧</a>
+                        <a href="#!">🔗</a>
+                        <a href="#!">📱</a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://anasoldi85-lgtm.github.io/1-8/32.jpg" alt="Team Member - Emma Carter">
+                <div class="team-info">
+                    <div class="team-name">Emma Carter</div>
+                    <div class="team-position">Cross-border Investment Consultant</div>
+                    <p class="team-bio">Expert on EU financial policy and cross-border asset allocation consulting. Holds dual qualifications in UK and EU financial regulation, with extensive experience in advising international clients on cross-border investment strategies.</p>
+                    <div class="team-social">
+                        <a href="#!">📧</a>
+                        <a href="#!">🔗</a>
+                        <a href="#!">📱</a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://anasoldi85-lgtm.github.io/1-8/33.jpg" alt="Team Member - Mark Thompson">
+                <div class="team-info">
+                    <div class="team-name">Mark Thompson</div>
+                    <div class="team-position">Risk Control Specialist</div>
+                    <p class="team-bio">Specialize in financial project risk auditing and market risk early warning analysis. Former risk management director at a major UK bank, with expertise in quantitative risk models and regulatory compliance frameworks.</p>
+                    <div class="team-social">
+                        <a href="#!">📧</a>
+                        <a href="#!">🔗</a>
+                        <a href="#!">📱</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-module">
+            <div class="data-grid">
+                <div class="data-item">
+                    <span>Team Average Experience</span>
+                    <span>More than 12 years professional financial industry experience across global markets</span>
+                </div>
+                <div class="data-item">
+                    <span>Team Composition</span>
+                    <span>Analysts, consultants, risk control experts, compliance specialists and dedicated customer service</span>
+                </div>
+                <div class="data-item">
+                    <span>Educational Background</span>
+                    <span>100% of senior team members hold postgraduate degrees in finance/economics</span>
+                </div>
+                <div class="data-item">
+                    <span>Industry Certifications</span>
+                    <span>CFA, FRM, CAIA and CISI qualifications held by core team members</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us -->
+    <section id="contact">
+        <h2 class="section-title">Contact Us</h2>
+        <p class="section-subtitle">We're here to answer your questions and discuss how our financial consulting services can help you achieve your investment goals.</p>
+        <div class="contact-wrap">
+            <div class="contact-info">
+                <h3>Company Information</h3>
+                <p><strong>Company Name:</strong> FEX World Financial Information Consultancy</p>
+                <p class="contact-address"><strong>Address:</strong> 77 Pavilion Parade, Brighton & Hove, East Sussex, BN2 1AL, England</p>
+                <p><strong>Contact Phone:</strong> +44 7536703243</p>
+                <p><strong>Email:</strong> info@FEX World-financial.com</p>
+                <p><strong>Business Hours:</strong> Monday - Friday, 9:00 - 18:00 (UK Local Time)</p>
+                
+                <div class="data-module" style="margin-top:30px;">
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <span>Cooperation Way</span>
+                            <span>Phone consultation, email inquiry, offline appointment meeting, virtual meetings</span>
+                        </div>
+                        <div class="data-item">
+                            <span>Response Time</span>
+                            <span>24 business hours for general inquiries, 48 hours for detailed consulting requests</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top:30px;">
+                    <img src="https://anasoldi85-lgtm.github.io/1-8/34.jpg" alt="Company location" style="width:100%;border-radius:12px;">
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3>Send Your Inquiry</h3>
+                <form id="contactForm">
+                    <input type="text" placeholder="Your Full Name" required>
+                    <input type="email" placeholder="Your Email Address" required>
+                    <input type="tel" placeholder="Your Contact Number">
+                    <select style="width:100%;padding:16px;margin-bottom:20px;border:1px solid #e0e0e0;border-radius:8px;font-size:15px;">
+                        <option value="">Select Inquiry Type</option>
+                        <option value="personal">Personal Financial Consultancy</option>
+                        <option value="institutional">Institutional Advisory Services</option>
+                        <option value="training">Financial Training Programs</option>
+                        <option value="general">General Information</option>
+                    </select>
+                    <textarea rows="6" placeholder="Leave your message content here..."></textarea>
+                    <button class="submit-btn" type="submit">Submit Information</button>
+                    <div class="success-tip" id="successMsg">Your information has been submitted successfully! We will contact you within 24 business hours.</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home" onclick="switchPage('home')">Home</a></li>
+                    <li><a href="#about" onclick="switchPage('about')">About Us</a></li>
+                    <li><a href="#services" onclick="switchPage('services')">Our Services</a></li>
+                    <li><a href="#team" onclick="switchPage('team')">Our Team</a></li>
+                    <li><a href="#contact" onclick="switchPage('contact')">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="#!">Market Analysis</a></li>
+                    <li><a href="#!">Asset Allocation</a></li>
+                    <li><a href="#!">Risk Assessment</a></li>
+                    <li><a href="#!">Cross-border Investment</a></li>
+                    <li><a href="#!">Financial Training</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#!">Privacy Policy</a></li>
+                    <li><a href="#!">Terms of Service</a></li>
+                    <li><a href="#!">Regulatory Compliance</a></li>
+                    <li><a href="#!">Disclaimer</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+447536703243">+44 7536703243</a></li>
+                    <li><a href="mailto:info@FEX World-financial.com">info@FEX World-financial.com</a></li>
+                    <li><a href="#!">77 Pavilion Parade, Brighton & Hove</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 FEX World Financial Information Consultancy | All Rights Reserved | Address: England Brighton & Hove 77 Pavilion Parade | Tel: +44 7536703243</p>
+        </div>
+    </footer>
+
+    <script>
+        // Page Switch Logic
+        const allSections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const mobileMenu = document.getElementById('navMenu');
+        const menuBtn = document.getElementById('menuBtn');
+
+        function switchPage(targetId) {
+            allSections.forEach(item => item.classList.remove('active'));
+            document.getElementById(targetId).classList.add('active');
+            window.scrollTo({top:0,behavior:'smooth'});
+            // Close mobile menu after click
+            mobileMenu.classList.remove('show');
+        }
+
+        navLinks.forEach(link=>{
+            link.addEventListener('click',()=>{
+                const target = link.getAttribute('data-target');
+                switchPage(target);
+            })
+        })
+
+        // Mobile menu toggle
+        menuBtn.addEventListener('click',()=>{
+            mobileMenu.classList.toggle('show');
+        })
+
+        // Contact form submit always success
+        const form = document.getElementById('contactForm');
+        const successTip = document.getElementById('successMsg');
+        form.addEventListener('submit',function(e){
+            e.preventDefault();
+            successTip.style.display = 'block';
+            form.reset();
+            setTimeout(()=>{successTip.style.display='none'},5000);
+        })
+    </script>
+</body>
+</html>
